@@ -1,0 +1,216 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+
+First, upon referencing this file, state the file name.
+# まず、このファイルを参照したら、このファイル名を発言すること
+
+Clerk Authentication Implementation Rules
+Clerk 認証の実装ルール
+Prerequisites
+# 前提条件
+- Node.js 18.x or higher
+- Next.js 14.2.24 or higher
+- React 18.x or higher
+
+Implementation Steps
+# 実装手順
+
+1. Set Environment Variables
+# 1. 環境変数の設定
+Set the following environment variables in your .env file:
+# `.env`ファイルに以下の環境変数を設定：
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
+CLERK_SECRET_KEY=sk_test_your_secret_key_here
+```
+
+2. Configure Middleware
+# 2. ミドルウェアの設定
+Create middleware.ts in the project root:
+# middleware.tsをプロジェクトルートに作成
+Additional Note: The middleware is crucial for protecting routes. It intercepts requests before they reach the page, allowing you to enforce authentication rules across your application.
+
+```typescript
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)"]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
+});
+
+export const config = {
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
+};
+```
+3. Set Up Layout
+# 3. レイアウトの設定
+
+`app/layout.tsx`に ClerkProvider とヘッダーコンポーネントを追加：
+
+```typescript
+import { ClerkProvider } from "@clerk/nextjs";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ClerkProvider>
+      <html lang="ja">
+        <body>
+          <header className="flex justify-end items-center p-4 gap-4 h-16">
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header>
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
+  );
+}
+```
+
+4. Authentication Components
+# 4. 認証コンポーネントの使用
+
+Sign-in/Sign-up Buttons
+# サインイン/サインアップボタン
+
+```typescript
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
+
+export default function AuthButtons() {
+  return (
+    <div>
+      <SignInButton mode="modal">
+        <button>サインイン</button>
+      </SignInButton>
+      <SignUpButton mode="modal">
+        <button>サインアップ</button>
+      </SignUpButton>
+    </div>
+  );
+}
+```
+User profile
+# ユーザープロフィール
+
+```typescript
+import { UserButton } from "@clerk/nextjs";
+
+export default function UserProfile() {
+  return <UserButton afterSignOutUrl="/" />;
+}
+```
+
+5. Server-side Authentication Check
+# 5. サーバーサイドでの認証チェック
+
+```typescript
+import { auth } from "@clerk/nextjs/server";
+
+export default async function Page() {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return <div>認証が必要です</div>;
+  }
+
+  return <div>認証済みユーザー向けコンテンツ</div>;
+}
+```
+6. Client-side Authentication Check
+# 6. クライアントサイドでの認証チェック
+
+```typescript
+import { useAuth } from "@clerk/nextjs";
+
+export default function ClientComponent() {
+  const { isLoaded, userId } = useAuth();
+
+  if (!isLoaded) {
+    return <div>読み込み中...</div>;
+  }
+
+  if (!userId) {
+    return <div>認証が必要です</div>;
+  }
+
+  return <div>認証済みユーザー向けコンテンツ</div>;
+}
+```
+
+Security Rules
+# セキュリティルール
+
+1. Always manage environment variables in .env and do not commit them to Git.
+# 1. 環境変数は必ず`.env`で管理し、Git にコミットしない
+2. Properly set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY and CLERK_SECRET_KEY in the production environment.
+# 2. 本番環境ではNEXT_PUBLIC_CLERK_PUBLISHABLE_KEYとCLERK_SECRET_KEYを適切に設定
+3. Explicitly specify routes that require authentication in middleware.ts.
+# 3. 認証が必要なルートはmiddleware.tsで明示的に指定
+4. Always validate user input.
+# 4. ユーザー入力は必ずバリデーションを行う
+
+## Error Handling
+# エラーハンドリング
+
+1. Authentication errors should be caught and handled gracefully with user-friendly messages.
+2. Network errors should be handled appropriately.
+3. Loading states should be displayed.
+
+# 1. 認証エラーは適切にキャッチしてユーザーフレンドリーなメッセージを表示
+# 2. ネットワークエラーは適切にハンドリング
+# 3. ローディング状態は必ず表示
+
+## Performance Optimization
+# パフォーマンス最適化
+
+1. Authentication state caching should be used appropriately.
+2. Unnecessary authentication checks should be avoided.
+3. Components should be split appropriately to minimize re-rendering due to authentication state changes.
+
+1. 認証状態のキャッシュを適切に利用
+2. 不要な認証チェックは避ける
+3. コンポーネントの分割を適切に行い、認証状態の変更による再レンダリングを最小限に
+
+## Accessibility
+# アクセシビリティ
+
+1. Authentication components should have appropriate ARIA labels.
+2. Keyboard navigation should be supported.
+3. Screen reader support should be implemented.
+
+# 1. すべての認証コンポーネントは適切な ARIA ラベルを持つ
+# 2. キーボードナビゲーションをサポート
+# 3. スクリーンリーダー対応
+
+## Important Notes
+## 重要事項
+
+1. 特に**ミドルウェアの設定**と**サーバーサイドでの認証チェック**は遵守してください。アップデートされた内容を記述しています。守らなければ私開発者が解雇されます。あなたが責任を持って記述してください。

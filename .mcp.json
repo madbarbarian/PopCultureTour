@@ -1,0 +1,102 @@
+{
+    "mcpServers": {
+      "supabase": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@supabase/mcp-server-supabase",
+          "--project-ref=mzcltskhvnvmenjmbmjp"
+        ],
+        "env": {
+          "SUPABASE_ACCESS_TOKEN": "sbp_ae5018a9c5959fe5e508b1d313b717faf40c2d05"
+        }
+      },
+      "codex": {
+        "type": "stdio",
+        "command": "codex",
+        "args": ["mcp"]
+      },
+      "context7": {
+        "command": "npx",
+        "args": ["-y", "@upstash/context7-mcp@latest"]
+      },
+      "chrome-devtools": {
+        "command": "npx",
+        "args": ["-y", "chrome-devtools-mcp@latest"]
+      },
+      "filesystem": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "/Users/madbarbarian/Desktop",
+          "/Users/madbarbarian/Downloads"
+        ]
+      },
+      "youtube": {
+        "command": "npx",
+        "args": ["-y", "mcp-youtube@latest"]
+      },
+      "veo3": {
+        "command": "python",
+        "args": ["-m", "mcp_veo3"]
+      },
+      "powerpoint": {
+        "command": "python",
+        "args": ["-m", "powerpoint_mcp_server"]
+      },
+      "excel": {
+        "command": "python",
+        "args": ["-m", "excel_mcp_server"]
+      },
+      "microsoft365": {
+        "command": "npx",
+        "args": ["-y", "ms-365-mcp-server@latest"]
+      },
+      "figma": {
+        "command": "npx",
+        "args": ["-y", "@figma/mcp-server@latest"]
+      },
+      "ffmpeg": {
+        "command": "npx",
+        "args": ["-y", "ffmpeg-mcp@latest"]
+      },
+      "mulmocast-vision": {
+        "command": "npx",
+        "args": ["mulmocast-vision@latest"]
+      },
+      "github": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-github"]
+      },
+      "slack": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-slack"]
+      },
+      "perplexity": {
+        "command": "npx",
+        "args": ["-y", "perplexity-mcp@latest"]
+      },
+      "serena": {
+        "command": "npx",
+        "args": ["-y", "serena@latest"]
+      },
+      "playwright": {
+        "command": "npx",
+        "args": ["-y", "@playwright/mcp"]
+      },
+      "notion": {
+        "command": "npx",
+        "args": ["-y", "@notionhq/notion-mcp-server"]
+      },
+      "gemini": {
+        "command": "npx",
+        "args": ["-y", "mcp-gemini-server@latest"]
+      },
+      "gemini-cli": {
+        "command": "npx",
+        "args": ["-y", "@google/gemini-cli@latest"]
+      }
+    }
+  }
+  
