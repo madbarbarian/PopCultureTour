@@ -73,7 +73,8 @@
       "Read(//Users/madbarbarian/Library/**)",
       "Bash(git rev-parse:*)",
       "Bash(rm:*)",
-      "Bash(rmdir:*)"
+      "Bash(rmdir:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [
       "Read(./secrets/**)",
