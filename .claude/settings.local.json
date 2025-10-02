@@ -70,7 +70,10 @@
       "Bash(mkdir:*)",
       "Bash(yamllint:*)",
       "Bash(ls:*)",
-      "Read(//Users/madbarbarian/Library/**)"
+      "Read(//Users/madbarbarian/Library/**)",
+      "Bash(git rev-parse:*)",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)"
     ],
     "deny": [
       "Read(./secrets/**)",
