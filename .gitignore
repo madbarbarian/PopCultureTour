@@ -1,6 +1,10 @@
 # Environment variables
 .env
 .env.*
+.env.local
+.env.production
+.env.development
+.env.test
 
 # Logs
 *.log
@@ -23,3 +27,22 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Security and credentials
+secrets/
+credentials.json
+config/credentials.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# API keys and tokens
+*api-key*
+*secret*
+*token*
+auth.json
+
+# MCP server logs
+mcp.log
+*.mcp.log

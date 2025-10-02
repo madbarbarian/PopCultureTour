@@ -1,14 +1,14 @@
 # Claude Code AI-Enhanced Development Environment
 # Claude Code AI拡張開発環境
 
-**Comprehensive AI-Powered Development Platform** - Claude Code + 21 MCP Servers + AI Agents + Framework Extensions
-**包括的AI駆動開発プラットフォーム** - Claude Code + 21個のMCPサーバー + AIエージェント + フレームワーク拡張
+**Comprehensive AI-Powered Development Platform** - Claude Code + 22 MCP Servers + AI Agents + Framework Extensions
+**包括的AI駆動開発プラットフォーム** - Claude Code + 22個のMCPサーバー + AIエージェント + フレームワーク拡張
 
 ## 🚀 Overview / 概要
 
-This project provides a comprehensive AI-enhanced development environment with 21 MCP (Model Context Protocol) servers and specialized AI agents for Claude Code. It enables full-stack development, automation, and quality assurance through integrated AI-powered tools. Additionally, the SuperClaude framework provides advanced behavioral modes and business analysis capabilities.
+This project provides a comprehensive AI-enhanced development environment with 22 MCP (Model Context Protocol) servers and specialized AI agents for Claude Code. It enables full-stack development, automation, and quality assurance through integrated AI-powered tools. Additionally, the SuperClaude framework provides advanced behavioral modes and business analysis capabilities.
 
-このプロジェクトは、Claude Code用の21個のMCP（Model Context Protocol）サーバーと専門AIエージェントによる包括的なAI拡張開発環境を提供します。統合されたAI駆動ツールにより、フルスタック開発、自動化、品質保証を実現します。さらに、SuperClaudeフレームワークが高度な行動モードとビジネス分析機能を提供します。
+このプロジェクトは、Claude Code用の22個のMCP（Model Context Protocol）サーバーと専門AIエージェントによる包括的なAI拡張開発環境を提供します。統合されたAI駆動ツールにより、フルスタック開発、自動化、品質保証を実現します。さらに、SuperClaudeフレームワークが高度な行動モードとビジネス分析機能を提供します。
 
 ### ⚡ Key Features / 主要機能
 
@@ -78,6 +78,14 @@ claude --task-manage "implement complex feature"  # SuperClaude task management
 
 # Expert consultation / 専門家コンサルテーション
 /delegate "strategic analysis" --agents "porter-analyst,christensen-advisor"
+
+# UI/UX Design Analysis / UI/UXデザイン分析
+/uiux_comprehensive_audit  # Comprehensive UI/UX audit using Playwright
+
+# Structured App Development / 構造化アプリ開発
+/serena "implement user dashboard" -s -t  # Structured development with todos
+/serena "debug performance issue" -q      # Quick debugging analysis
+/serena "design auth system" -d -r        # Deep design with research
 ```
 
 ### Gemini Integration / Gemini統合
@@ -97,9 +105,10 @@ claude --task-manage "implement complex feature"  # SuperClaude task management
 ```bash
 # Required Environment / 必要な環境
 - Claude Code or Claude Desktop
-- Node.js (v16+)
+- Node.js (v16+) - Only if you plan to develop Node.js applications / Node.jsアプリケーション開発時のみ
 - Python (3.8+)
 - uv (Python package manager)
+- volta (Node.js version manager) - Recommended for Node.js projects / Node.jsプロジェクト推奨
 ```
 
 ### Setup / セットアップ
@@ -110,15 +119,38 @@ claude --task-manage "implement complex feature"  # SuperClaude task management
    cd (ref)dev_base
    ```
 
-2. **Check Claude Code Configuration / Claude Code設定確認**
+2. **Environment Variables Configuration / 環境変数設定**
+   - Copy and customize `.env` file with your API keys / `.env`ファイルをコピーして、APIキーを設定
+   - See [Environment Variables Section](#-environment-variables--環境変数) for details / 詳細は環境変数セクションを参照
+   ```bash
+   # Copy template and fill in your API keys
+   cp .env .env.local  # Optional: create local copy
+   # Edit .env with your actual API keys
+   ```
+
+3. **Check Claude Code Configuration / Claude Code設定確認**
    - Verify enabled MCP servers in `.claude/settings.local.json`
    - Configure environment variables as needed
    - `.claude/settings.local.json` で有効化されたMCPサーバーを確認
    - 必要に応じて環境変数設定
 
-3. **Restart Claude Code / Claude Code再起動**
-   - Restart to apply configuration changes
-   - 設定変更を反映させるため再起動
+4. **Node.js Development Setup (Optional) / Node.js開発セットアップ（オプション）**
+   ```bash
+   # Only if planning Node.js development / Node.js開発を行う場合のみ
+   # Volta is already configured for Node.js v22.20.0
+   # voltaはNode.js v22.20.0用に設定済み
+   volta list  # Check current configuration / 現在の設定確認
+   ```
+
+5. **Start Claude Code with Environment Variables / 環境変数付きでClaude Code起動**
+   ```bash
+   # Ensure .env file is loaded / .envファイルを確実に読み込み
+   env $(grep -v '^#' .env | grep -v '^$' | xargs) claude
+   ```
+
+   **Alternative: Regular startup / 代替: 通常起動**
+   - Restart Claude Code normally to apply configuration changes
+   - 設定変更を反映させるため通常通りClaude Codeを再起動
 
 ## 🤖 AI Agents / AIエージェント
 
@@ -129,6 +161,8 @@ claude --task-manage "implement complex feature"  # SuperClaude task management
 |---------|---------|------|
 | **code-reviewer** | Code quality review and improvement suggestions / コード品質レビュー・改善提案 | After implementation, before PR |
 | **app-quality-tester** | Comprehensive application testing / アプリケーション総合テスト | Feature completion, deployment prep |
+| **uiux-designer** | UI/UX design analysis and improvement using Playwright / Playwright活用UI/UXデザイン分析・改善 | Design review, UX optimization |
+| **serena-expert** | Token-efficient app development using Serena MCP / Serena MCP活用トークン効率的アプリ開発 | Component creation, API development, system architecture |
 
 ### Framework Extensions (SuperClaude) / フレームワーク拡張（SuperClaude）
 **Additional specialized agents for complex workflows / 複雑ワークフロー向け追加専門エージェント**
@@ -154,7 +188,71 @@ SuperClaudeフレームワーク経由で戦略分析に利用可能：
 - **Meadows**: Systems thinking / システム思考
 - **Doumont**: Clear communication / 明確なコミュニケーション
 
-## 🛠️ MCP Servers (21) / MCPサーバー (21個)
+## 🔑 Environment Variables / 環境変数
+
+### API Keys Configuration / APIキー設定
+
+Most MCP servers require API keys for authentication. Configure them in the `.env` file:
+ほとんどのMCPサーバーは認証にAPIキーが必要です。`.env`ファイルで設定してください：
+
+```bash
+# GitHub MCP Server
+GITHUB_PERSONAL_ACCESS_TOKEN=your_github_personal_access_token_here
+
+# Slack MCP Server (Required for Slack integration)
+SLACK_BOT_TOKEN=xoxb-your_slack_bot_token_here
+
+# Perplexity MCP Server
+PERPLEXITY_API_KEY=your_perplexity_api_key_here
+
+# Context7 MCP Server (optional for higher rate limits)
+CONTEXT7_API_KEY=your_context7_api_key_here
+
+# Google/Gemini MCP Servers
+GOOGLE_API_KEY=your_google_api_key_here
+
+# Figma MCP Server
+FIGMA_ACCESS_TOKEN=your_figma_access_token_here
+
+# Microsoft 365 MCP Server
+MICROSOFT_CLIENT_ID=your_client_id_here
+MICROSOFT_CLIENT_SECRET=your_client_secret_here
+
+# Notion MCP Server
+NOTION_API_KEY=your_notion_api_key_here
+
+# Stripe MCP Server
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+
+# Supabase MCP Server
+SUPABASE_ACCESS_TOKEN=your_supabase_access_token_here
+SUPABASE_PROJECT_REF=your_supabase_project_ref_here
+```
+
+### How to Get API Keys / APIキーの取得方法
+
+| Service | Where to Get API Key | Notes |
+|---------|---------------------|--------|
+| **GitHub** | [Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens) | Requires repo, read:user permissions |
+| **Slack** | [Slack API](https://api.slack.com/apps) → Create New App → OAuth & Permissions | Bot token starting with `xoxb-` (Required for team integration) |
+| **Perplexity** | [Perplexity AI](https://www.perplexity.ai/settings/api) | Paid API access required for real-time search |
+| **Context7** | [Context7 Dashboard](https://context7.com/dashboard) | Optional, provides higher rate limits |
+| **Google/Gemini** | [Google AI Studio](https://aistudio.google.com/app/apikey) | Free tier available |
+| **Figma** | [Figma Account Settings](https://www.figma.com/developers/api#authentication) | Personal access token |
+| **Microsoft 365** | [Azure App Registration](https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) | OAuth app credentials |
+| **Notion** | [Notion Integrations](https://www.notion.so/my-integrations) | Internal integration token |
+| **Stripe** | [Stripe Dashboard](https://dashboard.stripe.com/apikeys) | Secret key for server-side ✅ Verified |
+| **Supabase** | [Supabase Dashboard](https://supabase.com/dashboard) → Project Settings → API | Access token and project ref |
+
+### Security Notes / セキュリティに関する注意
+
+- **Never commit `.env` file to version control** / `.env`ファイルをバージョン管理にコミットしないでください
+- **Use environment-specific files** / 環境固有のファイルを使用してください: `.env.local`, `.env.production`
+- **Rotate API keys regularly** / APIキーを定期的にローテーションしてください
+- **Grant minimal necessary permissions** / 必要最小限の権限のみを付与してください
+- **Test MCP connections** / MCP接続をテストしてください: Check Claude Code status for connection issues
+
+## 🛠️ MCP Servers (22) / MCPサーバー (22個)
 
 **Specialized Model Context Protocol servers for enhanced Claude Code capabilities**
 **Claude Code機能拡張のための専門化されたModel Context Protocolサーバー**
@@ -165,8 +263,9 @@ SuperClaudeフレームワーク経由で戦略分析に利用可能：
 | **Web & Automation / Web・自動化** | Chrome DevTools, Playwright, Filesystem | Browser operations, web automation, file management |
 | **Media & Video / メディア・動画** | YouTube, Veo3, FFmpeg | Video analysis, AI video generation, conversion processing |
 | **Office & Documents / オフィス・文書** | PowerPoint, Excel, Microsoft365, Notion | Presentations, data analysis, document management |
-| **Design & UI / デザイン・UI** | Figma, MulmoCast Vision | Design operations, AI slide generation |
+| **Design & UI / デザイン・UI** | Figma, MulmoCast Vision, Playwright (via uiux-designer) | Design operations, AI slide generation, UI/UX analysis |
 | **Communication / コミュニケーション** | Slack, Perplexity | Team collaboration, real-time search |
+| **Payment & E-commerce / 決済・Eコマース** | Stripe | Payment processing, subscription management, financial data |
 | **Code Analysis / コード分析** | Serena | Semantic code understanding, LSP integration |
 | **AI Integration / AI統合** | Gemini, Gemini CLI | Google AI integration, multi-modal AI, terminal assistance |
 
@@ -184,8 +283,11 @@ SuperClaudeフレームワーク経由で戦略分析に利用可能：
 ### Project-Specific Commands / プロジェクト固有コマンド
 - **Development**: `/test`, `/lint`, `/build` - Quality assurance and build automation
 - **Git Integration**: `/commit` - Intelligent commit with automated analysis
+- **MCP Server Management**: `/mcp` - Check MCP server status and connection health
 - **UI Generation**: `/ui`, `/21` - Modern UI component generation from 21st.dev patterns
 - **Logo Integration**: `/logo [company]` - Brand logo search and implementation
+- **UI/UX Design**: `/uiux_comprehensive_audit` - Comprehensive UI/UX analysis and improvement using Playwright
+- **App Development**: `/serena [task] [options]` - Token-efficient structured development using Serena MCP
 
 ## 📖 Documentation / ドキュメント
 
@@ -227,6 +329,9 @@ git add, commit, push, rebase
 # npm操作
 npm install, uninstall, cache clean
 
+# Node.js関連 (voltaが導入済み)
+volta list, volta pin, volta install
+
 # その他
 gh (GitHub CLI), WebSearch, find
 ```
@@ -246,7 +351,7 @@ gh (GitHub CLI), WebSearch, find
 Development → Supabase (DB) → GitHub (Version Control) → Chrome DevTools (Testing) → Notion (Docs)
 
 # With AI enhancement / AI拡張ワークフロー
-AI Agents (code-reviewer, app-quality-tester) + Gemini API + SuperClaude framework
+AI Agents (serena-expert, code-reviewer, app-quality-tester, uiux-designer) + Gemini API + SuperClaude framework
 ```
 
 #### Content Creation Pipeline / コンテンツ作成パイプライン
@@ -276,6 +381,28 @@ Task Management modes + Expert consultation + Quality validation
 3. Claude Code再起動
 4. `MCP_SERVERS.md` 更新
 
+### Node.js開発環境準備
+
+このプロジェクトは設定ファイルのみですが、Node.jsアプリケーション開発時は以下が利用可能：
+
+1. **Volta Node.js バージョン管理**
+   ```bash
+   volta list              # 設定確認
+   volta pin node@22.20.0  # バージョン固定 (設定済み)
+   volta install yarn      # パッケージマネージャー追加
+   ```
+
+2. **プロジェクト初期化** (必要時)
+   ```bash
+   npm init -y             # package.json作成 (作成済み)
+   npm install express     # 依存関係追加例
+   ```
+
+3. **設定の利点**
+   - チーム全員で同じNode.jsバージョン使用
+   - プロジェクト固有のバージョン管理
+   - 自動バージョン切り替え
+
 ### 開発ルール追加
 
 1. `.cursor/rules/` に新ルールファイル作成
@@ -297,9 +424,21 @@ Task Management modes + Expert consultation + Quality validation
    - 各種APIキー設定確認
    - トークン有効性確認
 
+4. **Slack MCPサーバー未接続**
+   - `SLACK_BOT_TOKEN`環境変数の設定確認
+   - [Slack API](https://api.slack.com/apps)でBot Token取得
+   - `xoxb-`で始まるBot Tokenが必要
+   - 設定後はClaude Code再起動
+
 詳細は [SETUP_GUIDE.md](./SETUP_GUIDE.md#トラブルシューティング) を参照
 
 ## 📈 Update History / 更新履歴
+
+- **2025年10月**: MCP Server Verification & Configuration Updates / MCPサーバー検証・設定更新
+  - **Stripe MCP Integration**: Complete payment processing verification and testing / Stripe MCP統合：決済処理の完全検証・テスト
+  - **Claude Code Agent Enhancement**: Added serena-expert and uiux-designer specialized agents / Claude Codeエージェント強化：serena-expert・uiux-designerエージェント追加
+  - **Configuration Optimization**: Updated .mcp.json, permissions, and environment setup / 設定最適化：.mcp.json・権限・環境設定更新
+  - **Documentation Updates**: Verified status markers and comprehensive testing results / ドキュメント更新：検証済みステータス・包括的テスト結果
 
 - **2025年9月**: Framework Extensions & Documentation Restructure / フレームワーク拡張・ドキュメント再構築
   - **Framework Extensions**: SuperClaude framework integration with behavioral modes and business analysis / フレームワーク拡張：SuperClaudeフレームワーク統合（行動モード・ビジネス分析）

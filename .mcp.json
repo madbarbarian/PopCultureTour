@@ -4,11 +4,11 @@
         "command": "npx",
         "args": [
           "-y",
-          "@supabase/mcp-server-supabase",
-          "--project-ref=mzcltskhvnvmenjmbmjp"
+          "@supabase/mcp-server-supabase"
         ],
         "env": {
-          "SUPABASE_ACCESS_TOKEN": "sbp_ae5018a9c5959fe5e508b1d313b717faf40c2d05"
+          "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}",
+          "SUPABASE_PROJECT_REF": "${SUPABASE_PROJECT_REF}"
         }
       },
       "codex": {
@@ -18,44 +18,42 @@
       },
       "context7": {
         "command": "npx",
-        "args": ["-y", "@upstash/context7-mcp@latest"]
+        "args": ["-y", "@upstash/context7-mcp@latest", "--api-key", "${CONTEXT7_API_KEY}"]
       },
       "chrome-devtools": {
         "command": "npx",
         "args": ["-y", "chrome-devtools-mcp@latest"]
       },
-      "filesystem": {
+      "file-system": {
         "command": "npx",
         "args": [
           "-y",
           "@modelcontextprotocol/server-filesystem",
-          "/Users/madbarbarian/Desktop",
-          "/Users/madbarbarian/Downloads"
+          "${FILESYSTEM_PATH_1}",
+          "${FILESYSTEM_PATH_2}"
         ]
       },
       "youtube": {
         "command": "npx",
-        "args": ["-y", "mcp-youtube@latest"]
+        "args": ["-y", "@kirbah/mcp-youtube@latest"]
       },
       "veo3": {
-        "command": "python",
-        "args": ["-m", "mcp_veo3"]
-      },
-      "powerpoint": {
-        "command": "python",
-        "args": ["-m", "powerpoint_mcp_server"]
-      },
-      "excel": {
-        "command": "python",
-        "args": ["-m", "excel_mcp_server"]
+        "command": "python3",
+        "args": ["-m", "mcp_veo3", "--output-dir", "/tmp/veo3_videos"],
+        "env": {
+          "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+        }
       },
       "microsoft365": {
         "command": "npx",
         "args": ["-y", "ms-365-mcp-server@latest"]
       },
-      "figma": {
+      "figma-developer-mcp": {
         "command": "npx",
-        "args": ["-y", "@figma/mcp-server@latest"]
+        "args": ["-y", "figma-developer-mcp", "--stdio"],
+        "env": {
+          "FIGMA_API_KEY": "${FIGMA_API_KEY}"
+        }
       },
       "ffmpeg": {
         "command": "npx",
@@ -67,19 +65,29 @@
       },
       "github": {
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-github"]
+        "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {
+          "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+        }
       },
       "slack": {
         "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-slack"]
+        "args": ["-y", "@modelcontextprotocol/server-slack"],
+        "env": {
+          "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+          "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+        }
       },
       "perplexity": {
         "command": "npx",
-        "args": ["-y", "perplexity-mcp@latest"]
+        "args": ["-y", "perplexity-mcp@latest"],
+        "env": {
+          "PERPLEXITY_API_KEY": "${PERPLEXITY_API_KEY}"
+        }
       },
       "serena": {
-        "command": "npx",
-        "args": ["-y", "serena@latest"]
+        "command": "uvx",
+        "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
       },
       "playwright": {
         "command": "npx",
@@ -87,15 +95,28 @@
       },
       "notion": {
         "command": "npx",
-        "args": ["-y", "@notionhq/notion-mcp-server"]
+        "args": ["-y", "@notionhq/notion-mcp-server"],
+        "env": {
+          "NOTION_API_KEY": "${NOTION_API_KEY}"
+        }
       },
       "gemini": {
         "command": "npx",
-        "args": ["-y", "mcp-gemini-server@latest"]
+        "args": ["-y", "gemini-mcp-tool@latest"],
+        "env": {
+          "GOOGLE_API_KEY": "${GOOGLE_API_KEY}"
+        }
       },
-      "gemini-cli": {
+      "stripe": {
         "command": "npx",
-        "args": ["-y", "@google/gemini-cli@latest"]
+        "args": ["-y", "@stripe/mcp@latest", "--api-key", "${STRIPE_SECRET_KEY}"]
+      },
+      "tavily": {
+        "command": "npx",
+        "args": ["-y", "@tavily/mcp-server@latest"],
+        "env": {
+          "TAVILY_API_KEY": "${TAVILY_API_KEY}"
+        }
       }
     }
   }

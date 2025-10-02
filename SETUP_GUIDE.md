@@ -139,18 +139,77 @@ Claude Codeの`settings.local.json`では以下のコマンドが事前承認さ
 
 ### 3. Environment Variables Configuration / 環境変数の設定
 
-Some MCP servers require API keys. Add the following to your shell configuration:
-一部のMCPサーバーではAPIキーが必要です。シェル設定に以下を追加してください：
+Most MCP servers require API keys for authentication. This project uses a `.env` file for centralized credential management.
+ほとんどのMCPサーバーは認証にAPIキーが必要です。このプロジェクトでは、認証情報の一元管理に`.env`ファイルを使用します。
+
+#### Step 1: Configure .env File / ステップ1: .envファイルの設定
+
+The project includes a `.env` template with all required environment variables. Edit the file with your actual API keys:
+プロジェクトには必要な環境変数がすべて含まれた`.env`テンプレートが含まれています。実際のAPIキーでファイルを編集してください：
 
 ```bash
-# ~/.zshrc または ~/.bashrc に追加
-export PERPLEXITY_API_KEY="your-api-key-here"
-export GOOGLE_API_KEY="your-google-api-key"
-export SLACK_BOT_TOKEN="your-slack-token"
-export GITHUB_TOKEN="your-github-token"
-export NOTION_API_TOKEN="your-notion-token"
-export SUPABASE_ACCESS_TOKEN="your-supabase-token"
+# Edit the .env file with your API keys
+# 実際のAPIキーで .env ファイルを編集
+nano .env
 ```
+
+#### Step 2: Required API Keys / ステップ2: 必要なAPIキー
+
+```bash
+# GitHub MCP Server (Required for repository operations)
+GITHUB_PERSONAL_ACCESS_TOKEN=your_github_personal_access_token_here
+
+# Slack MCP Server (Required for team communication)
+SLACK_BOT_TOKEN=xoxb-your_slack_bot_token_here
+
+# Perplexity MCP Server (Required for real-time search)
+PERPLEXITY_API_KEY=your_perplexity_api_key_here
+
+# Context7 MCP Server (Optional for higher rate limits)
+CONTEXT7_API_KEY=your_context7_api_key_here
+
+# Google/Gemini MCP Servers (Required for AI integration)
+GOOGLE_API_KEY=your_google_api_key_here
+
+# Figma MCP Server (Optional for design operations)
+FIGMA_ACCESS_TOKEN=your_figma_access_token_here
+
+# Microsoft 365 MCP Server (Optional for Office integration)
+MICROSOFT_CLIENT_ID=your_client_id_here
+MICROSOFT_CLIENT_SECRET=your_client_secret_here
+
+# Notion MCP Server (Optional for knowledge management)
+NOTION_API_KEY=your_notion_api_key_here
+
+# Stripe MCP Server (Required for payment processing)
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+
+# Supabase MCP Server (Required for database operations)
+SUPABASE_ACCESS_TOKEN=your_supabase_access_token_here
+SUPABASE_PROJECT_REF=your_supabase_project_ref_here
+```
+
+#### Step 3: API Key Sources / ステップ3: APIキー取得先
+
+| Service | URL to Get API Key | Required Permissions |
+|---------|-------------------|---------------------|
+| **GitHub** | [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens) | `repo`, `read:user` |
+| **Slack** | [Slack API Apps](https://api.slack.com/apps) → Create New App → OAuth & Permissions | Bot token (`xoxb-`) |
+| **Perplexity** | [Perplexity AI API](https://www.perplexity.ai/settings/api) | Paid API access |
+| **Context7** | [Context7 Dashboard](https://context7.com/dashboard) | Free account |
+| **Google/Gemini** | [Google AI Studio](https://aistudio.google.com/app/apikey) | Free tier available |
+| **Figma** | [Figma Account Settings > Personal access tokens](https://www.figma.com/developers/api#authentication) | Read-only access |
+| **Microsoft 365** | [Azure Portal > App registrations](https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade) | OAuth credentials |
+| **Notion** | [Notion Integrations](https://www.notion.so/my-integrations) | Internal integration |
+| **Stripe** | [Stripe Dashboard > API keys](https://dashboard.stripe.com/apikeys) | Secret key | ✅ Verified |
+| **Supabase** | [Supabase Dashboard > Project Settings > API](https://supabase.com/dashboard) | Access token |
+
+#### Step 4: Environment Variable Security / ステップ4: 環境変数のセキュリティ
+
+- **Never commit `.env` files**: The `.gitignore` file already excludes `.env*` files
+- **Use minimal permissions**: Grant only necessary permissions for each API key
+- **Create environment-specific files**: Use `.env.local` for local development
+- **Rotate keys regularly**: Update API keys periodically for security
 
 ### 4. Hook Configuration / フック設定
 

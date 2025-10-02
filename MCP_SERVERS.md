@@ -40,15 +40,183 @@ This document provides detailed information about all 21 MCP servers configured 
 - [20. GitHub MCP](#20-github-mcp) - Repository Management
 - [21. Slack MCP](#21-slack-mcp) - Team Communication
 
+#### 💳 Payment & E-commerce / 決済・Eコマース
+- [22. Stripe MCP](#22-stripe-mcp) - Payment Processing & Subscriptions
+
 #### 🤖 AI & Code Analysis / AI・コード分析
-- [22. Morphllm MCP](#22-morphllm-mcp) - Pattern-based Code Editing
-- [23. Serena MCP](#23-serena-mcp) - Semantic Code Understanding
-- [24. Gemini MCP](#24-gemini-mcp) - Google AI Integration
-- [25. Gemini CLI MCP](#25-gemini-cli-mcp) - Advanced AI Terminal
+- [23. Morphllm MCP](#23-morphllm-mcp) - Pattern-based Code Editing
+- [24. Serena MCP](#24-serena-mcp) - Semantic Code Understanding
+- [25. Gemini MCP](#25-gemini-mcp) - Google AI Integration
+- [26. Gemini CLI MCP](#26-gemini-cli-mcp) - Advanced AI Terminal
 
 ### ⚙️ [Configuration & Setup](#-configuration--setup--設定)
 ### 🔧 [Environment Variables](#-environment-variables--環境変数)
 ### 🆘 [Troubleshooting](#-troubleshooting--トラブルシューティング)
+
+## 🔧 Environment Variables / 環境変数
+
+### MCP Server Authentication / MCPサーバー認証
+
+Most MCP servers require API keys or tokens for authentication. All credentials should be configured in the `.env` file and referenced in `.mcp.json` using environment variable syntax.
+
+ほとんどのMCPサーバーは認証にAPIキーまたはトークンが必要です。すべての認証情報は`.env`ファイルで設定し、`.mcp.json`で環境変数の構文を使って参照してください。
+
+### Required Environment Variables / 必要な環境変数
+
+```bash
+# GitHub MCP Server
+GITHUB_PERSONAL_ACCESS_TOKEN=your_github_personal_access_token_here
+
+# Slack MCP Server
+SLACK_BOT_TOKEN=xoxb-your_slack_bot_token_here
+
+# Perplexity MCP Server
+PERPLEXITY_API_KEY=your_perplexity_api_key_here
+
+# Context7 MCP Server (optional for higher rate limits)
+CONTEXT7_API_KEY=your_context7_api_key_here
+
+# Google/Gemini MCP Servers
+GOOGLE_API_KEY=your_google_api_key_here
+
+# Figma MCP Server
+FIGMA_ACCESS_TOKEN=your_figma_access_token_here
+
+# Microsoft 365 MCP Server
+MICROSOFT_CLIENT_ID=your_client_id_here
+MICROSOFT_CLIENT_SECRET=your_client_secret_here
+
+# Notion MCP Server
+NOTION_API_KEY=your_notion_api_key_here
+
+# Stripe MCP Server
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
+
+# Supabase MCP Server
+SUPABASE_ACCESS_TOKEN=your_supabase_access_token_here
+SUPABASE_PROJECT_REF=your_supabase_project_ref_here
+```
+
+### Environment Variable Usage in .mcp.json
+
+The `.mcp.json` configuration file uses environment variables with the syntax `${VARIABLE_NAME}`:
+
+`.mcp.json`設定ファイルでは、`${VARIABLE_NAME}`の構文で環境変数を使用します：
+
+```json
+{
+  "mcpServers": {
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "mcp-stripe@latest"],
+      "env": {
+        "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY}"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### Security Best Practices / セキュリティベストプラクティス
+
+- **Never commit `.env` files**: Add `.env*` to `.gitignore` / `.env`ファイルをコミットしない：`.gitignore`に`.env*`を追加
+- **Use minimal permissions**: Grant only necessary API permissions / 最小限の権限：必要なAPI権限のみを付与
+- **Rotate keys regularly**: Update API keys periodically / 定期的なキーローテーション：APIキーを定期的に更新
+- **Environment-specific configs**: Use `.env.local`, `.env.production` for different environments / 環境固有の設定：異なる環境で`.env.local`、`.env.production`を使用
+
+### Optional vs Required Variables / オプション vs 必須変数
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `GITHUB_PERSONAL_ACCESS_TOKEN` | ✅ Required | Repository operations, issue management |
+| `STRIPE_SECRET_KEY` | ✅ Required | Payment processing, subscription management |
+| `SUPABASE_ACCESS_TOKEN` | ✅ Required | Database operations, Edge Functions |
+| `GOOGLE_API_KEY` | ✅ Required | Gemini AI, Google services |
+| `CONTEXT7_API_KEY` | ⚠️ Optional | Higher rate limits for documentation access |
+| `NOTION_API_KEY` | ⚠️ Optional | Notion workspace integration |
+| `FIGMA_ACCESS_TOKEN` | ⚠️ Optional | Design file operations |
+
+**Note**: Claude Code will start without optional API keys, but related MCP servers may have limited functionality.
+
+注意：オプションのAPIキーがなくてもClaude Codeは起動しますが、関連MCPサーバーの機能が制限される場合があります。
+
+## ⚙️ Configuration & Setup / 設定
+
+### Initial Setup / 初期設定
+
+1. **Install Dependencies / 依存関係インストール**
+   ```bash
+   # Node.js packages (automatic via npx)
+   # Python packages for specific servers
+   pip install mcp-veo3 powerpoint-mcp-server excel-mcp-server
+   ```
+
+2. **Configure Environment Variables / 環境変数設定**
+   ```bash
+   # Copy template and customize
+   cp .env .env.local
+   # Edit with your actual API keys
+   nano .env
+   ```
+
+3. **Enable MCP Servers / MCPサーバー有効化**
+   - Edit `.claude/settings.local.json`
+   - Add server names to `enabledMcpjsonServers` array
+   - Restart Claude Code
+
+4. **Verify Configuration / 設定確認**
+   - Check Claude Code startup logs for MCP server status
+   - Test basic functionality with each enabled server
+
+### Common Configuration Issues / よくある設定問題
+
+- **Missing API Keys**: Ensure all required environment variables are set
+- **Invalid JSON**: Validate `.mcp.json` syntax with JSON validator
+- **Path Issues**: Use absolute paths for local executables
+- **Permission Errors**: Check file permissions and API key validity
+
+## 🆘 Troubleshooting / トラブルシューティング
+
+### MCP Server Connection Issues / MCPサーバー接続問題
+
+1. **Server Not Starting**:
+   ```bash
+   # Check Claude Code logs
+   # Verify .mcp.json syntax
+   # Ensure all dependencies installed
+   ```
+
+2. **Authentication Failures**:
+   ```bash
+   # Verify API keys in .env file
+   # Check key permissions and validity
+   # Ensure environment variables properly referenced
+   ```
+
+3. **Environment Variable Issues**:
+   ```bash
+   # Verify .env file location and format
+   # Check variable naming consistency
+   # Restart Claude Code after changes
+   ```
+
+### Server-Specific Issues / サーバー固有の問題
+
+- **Supabase**: Verify project reference and access token validity
+- **Stripe**: Ensure secret key format and permissions
+- **GitHub**: Check personal access token scope (repo, read:user)
+- **Google/Gemini**: Verify API key and quota limits
+
+For detailed troubleshooting, see [SETUP_GUIDE.md](./SETUP_GUIDE.md#troubleshooting).
+
+詳細なトラブルシューティングについては、[SETUP_GUIDE.md](./SETUP_GUIDE.md#troubleshooting)を参照してください。
 
 ## 🧠 SuperClaude Framework Integration / SuperClaudeフレームワーク統合
 
@@ -75,12 +243,17 @@ Supabaseデータベース操作、マイグレーション管理、Edge Functio
 ```json
 "supabase": {
   "command": "npx",
-  "args": ["-y", "@supabase/mcp-server-supabase", "--project-ref=mzcltskhvnvmenjmbmjp"],
+  "args": ["-y", "@supabase/mcp-server-supabase"],
   "env": {
-    "SUPABASE_ACCESS_TOKEN": "sbp_ae5018a9c5959fe5e508b1d313b717faf40c2d05"
+    "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}",
+    "SUPABASE_PROJECT_REF": "${SUPABASE_PROJECT_REF}"
   }
 }
 ```
+
+**Prerequisites / 使用前の準備**: Set environment variables in `.env` file / `.env`ファイルで環境変数を設定
+- `SUPABASE_ACCESS_TOKEN`: Your Supabase access token
+- `SUPABASE_PROJECT_REF`: Your Supabase project reference ID
 
 **Use Cases / 使用例**:
 - List database tables / データベーステーブルの一覧表示
@@ -512,6 +685,78 @@ pip install fastmcp>=2.12.3
 "テストカバレッジを改善"
 "複雑なワークフローを自動実行"
 ```
+
+### 22. Stripe MCP ✅ Verified
+**Features / 機能**: Payment processing, subscription management, financial operations / 決済処理、サブスクリプション管理、金融業務
+**Status / ステータス**: ✅ Fully tested and operational / 完全テスト済み・稼働中
+```json
+"stripe": {
+  "command": "npx",
+  "args": ["-y", "mcp-stripe@latest"],
+  "env": {
+    "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY}"
+  }
+}
+```
+
+**Prerequisites / 使用前の準備**:
+- Set environment variables in `.env` file / `.env`ファイルで環境変数を設定
+- `STRIPE_SECRET_KEY`: Your Stripe secret key from [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+- **Note**: Stripe CLI is NOT required for subscription management / Stripe CLIはサブスクリプション管理に必須ではありません
+
+**Technical Features / 技術特徴**:
+- Complete payment processing integration / 完全な決済処理統合
+- Subscription lifecycle management / サブスクリプションライフサイクル管理
+- Customer portal integration / カスタマーポータル統合
+- Webhook event handling / Webhook イベント処理
+- Real-time payment monitoring / リアルタイム決済監視
+
+**Use Cases / 使用例**:
+- Create and manage subscriptions / サブスクリプションの作成・管理
+- Process one-time payments / 単発決済の処理
+- Customer data management / 顧客データ管理
+- Generate and send invoices / 請求書の生成・送信
+- Analyze revenue and payment data / 売上・決済データの分析
+
+**Test Results / テスト結果**:
+- ✅ API Connection & Authentication / API接続・認証
+- ✅ Customer Management (CRUD operations) / 顧客管理（CRUD操作）
+- ✅ Payment Methods (Test tokens) / 決済方法（テストトークン）
+- ✅ Payment Intents (Create, retrieve, cancel) / 決済インテント（作成・取得・キャンセル）
+- ✅ Products & Prices (Subscriptions) / 商品・価格（サブスクリプション）
+- ✅ Webhook Verification (HMAC-SHA256) / Webhook検証（HMAC-SHA256）
+- ✅ Error Handling & Security / エラーハンドリング・セキュリティ
+- Set up payment methods and billing / 支払い方法・請求設定
+
+**Supported Operations / 対応操作**:
+```bash
+# Subscription management / サブスクリプション管理
+"Create monthly subscription for customer" / "顧客の月額サブスクリプションを作成"
+"Update subscription pricing" / "サブスクリプション価格を更新"
+"Cancel subscription with proration" / "日割り計算でサブスクリプションをキャンセル"
+
+# Payment processing / 決済処理
+"Process payment for invoice" / "請求書の決済を処理"
+"Set up recurring billing" / "定期請求を設定"
+"Handle failed payment recovery" / "決済失敗の復旧処理"
+
+# Customer management / 顧客管理
+"Create customer with payment method" / "支払い方法付きで顧客を作成"
+"Update customer billing information" / "顧客の請求情報を更新"
+"Generate customer usage report" / "顧客利用レポートを生成"
+```
+
+**Business Benefits / ビジネスメリット**:
+- **No Stripe CLI required**: API-based management is sufficient for production use / Stripe CLI不要：API ベース管理で本番運用可能
+- **Scalable subscription management**: Handle thousands of subscriptions programmatically / スケーラブルなサブスクリプション管理
+- **Automated billing**: Reduce manual billing operations / 請求業務の自動化
+- **Customer self-service**: Integrated portal for customer management / 顧客セルフサービス
+
+**Important Notes / 重要な注意事項**:
+- Use test keys during development / 開発時はテストキーを使用
+- Monitor webhook events for critical updates / 重要な更新はWebhookイベントを監視
+- Implement proper error handling for payment failures / 決済失敗の適切なエラーハンドリングを実装
+- Follow PCI compliance guidelines / PCI コンプライアンスガイドラインに従う
 
 ## 🔗 Related Documentation / 関連ドキュメント
 

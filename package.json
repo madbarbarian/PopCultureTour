@@ -1,0 +1,26 @@
+{
+  "name": "(ref)dev_base",
+  "version": "1.0.0",
+  "description": "**Comprehensive AI-Powered Development Platform** - Claude Code + 22 MCP Servers + AI Agents + Framework Extensions **包括的AI駆動開発プラットフォーム** - Claude Code + 22個のMCPサーバー + AIエージェント + フレームワーク拡張",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madbarbarian/dev_base.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/madbarbarian/dev_base/issues"
+  },
+  "homepage": "https://github.com/madbarbarian/dev_base#readme",
+  "volta": {
+    "node": "22.20.0"
+  }
+}
