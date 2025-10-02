@@ -45,4 +45,4 @@ auth.json
 
 # MCP server logs
 mcp.log
-*.mcp.log
+*.mcp.log.claude/settings.local.json.backup

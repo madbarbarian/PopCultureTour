@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Architecture
 
-This repository serves as a development base configuration for Claude Code with comprehensive MCP (Model Context Protocol) server integrations. The project is designed to provide AI-powered development capabilities through 16 different MCP servers spanning various domains including databases, office applications, design tools, multimedia processing, and real-time search.
+This repository serves as a development base configuration for Claude Code with comprehensive MCP (Model Context Protocol) server integrations. The project is designed to provide AI-powered development capabilities through 19 different MCP servers spanning various domains including databases, design tools, multimedia processing, real-time search, and AI services.
 
 ### Core Configuration Structure
 
@@ -15,11 +15,12 @@ The project uses a dual-configuration approach:
 ### MCP Server Categories
 
 1. **Data & Backend**: Supabase (PostgreSQL), Codex (advanced code generation)
-2. **Office & Productivity**: PowerPoint, Excel, Microsoft 365
-3. **Design & Media**: Figma, Chrome DevTools, FFmpeg, YouTube, Veo 3 (AI video)
-4. **Development**: GitHub, Context7 (documentation), Filesystem
-5. **Communication**: Slack, Perplexity (real-time search)
-6. **AI Presentation**: MulmoCast Vision (slide generation)
+2. **Documentation & Context**: Context7 (library documentation), Serena (semantic code operations)
+3. **Design & Media**: Figma (design integration), Chrome DevTools (browser tools), FFmpeg (multimedia processing), YouTube (video platform), Veo 3 (AI video generation)
+4. **Development & Testing**: GitHub (version control), Playwright (browser automation), File-system (file operations)
+5. **Communication & Search**: Slack (team communication), Perplexity (real-time search), Tavily (research)
+6. **AI & Productivity**: MulmoCast Vision (slide generation), Gemini (AI assistance), Notion (productivity)
+7. **Commerce**: Stripe (payment processing)
 
 ## Key Development Commands
 

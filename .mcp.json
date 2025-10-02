@@ -44,10 +44,6 @@
           "GEMINI_API_KEY": "${GEMINI_API_KEY}"
         }
       },
-      "microsoft365": {
-        "command": "npx",
-        "args": ["-y", "ms-365-mcp-server@latest"]
-      },
       "figma-developer-mcp": {
         "command": "npx",
         "args": ["-y", "figma-developer-mcp", "--stdio"],
