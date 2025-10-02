@@ -72,7 +72,8 @@
       "Bash(node:*)",
       "Bash(chmod:*)",
       "mcp__serena__get_current_config",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(git remote:*)"
     ],
     "deny": [
       "Read(./.env)",
