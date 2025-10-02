@@ -32,7 +32,13 @@
       "Bash(pip3:*)",
       "Read(//usr/local/bin/**)",
       "Bash(sudo rm:*)",
-      "Bash(pipx:*)"
+      "Bash(pipx:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git clone:*)",
+      "Bash(git pull:*)",
+      "Bash(mv:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)"
     ],
     "deny": [
       "Read(./.env)",
